@@ -1,0 +1,20 @@
+node_modules/
+.output/
+dist/
+exports/
+.tanstack/
+.env
+.env.*
+!.env.example
+*.local
+
+test-results/
+playwright-report/
+
+quality/previews/
+quality/lighthouse-*.html
+quality/lighthouse-*.json
+
+# Local design source material and historical review notes
+/reference/
+/quality/requirements-checklist.md
