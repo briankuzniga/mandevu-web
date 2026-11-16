@@ -789,11 +789,12 @@ h2.big {
 }
 .shop-grid {
   --card-width: clamp(200px, 58vw, 270px);
+  --card-gap: 12px;
   position: relative;
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: var(--card-width);
-  gap: 12px;
+  gap: var(--card-gap);
   overflow-x: auto;
   padding: 22px max(0px, (100% - var(--card-width)) / 2);
   border-radius: 20px;
@@ -819,6 +820,11 @@ h2.big {
 .js .shop-card {
   opacity: 0.7;
   transform: scale(0.88);
+}
+@media (min-width: 1050px) {
+  .shop-card:nth-child(2) {
+    scroll-margin-right: calc(var(--card-width) - var(--card-gap));
+  }
 }
 .js .shop-card[aria-current="true"] {
   opacity: 1;

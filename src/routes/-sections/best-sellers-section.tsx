@@ -107,7 +107,7 @@ export function BestSellersSection() {
               className="shop-card"
               type="button"
               key={id}
-              aria-current={index === 0 ? "true" : undefined}
+              aria-current={index === 1 ? "true" : undefined}
             >
               <span className="shop-card-image">
                 <img src={`/assets/shop-${id}.jpg`} alt="" loading="lazy" />

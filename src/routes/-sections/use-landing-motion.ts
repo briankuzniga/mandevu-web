@@ -93,30 +93,36 @@ export function mountLandingMotion() {
   const shop = document.querySelector<HTMLElement>("#shop-products");
   if (shop) {
     const cards = [...shop.querySelectorAll<HTMLButtonElement>(".shop-card")];
-    const center = (card: HTMLButtonElement) =>
-      card.offsetLeft + (card.offsetWidth - shop.clientWidth) / 2;
-    let current = 0;
+    const snapPosition = (card: HTMLButtonElement) =>
+      card.offsetLeft +
+      (card.offsetWidth -
+        shop.clientWidth +
+        (parseFloat(getComputedStyle(card).scrollMarginRight) || 0)) /
+        2;
+    let current = cards.findIndex(
+      (card) => card.getAttribute("aria-current") === "true",
+    );
     const updateFeaturedCard = () => {
       const position = shop.scrollLeft;
       const index = cards.reduce(
         (closest, card, index) =>
-          Math.abs(center(card) - position) <
-          Math.abs(center(cards[closest]) - position)
+          Math.abs(snapPosition(card) - position) <
+          Math.abs(snapPosition(cards[closest]) - position)
             ? index
             : closest,
         0,
       );
       if (index === current) return;
-      cards[current].removeAttribute("aria-current");
+      cards[current]?.removeAttribute("aria-current");
       cards[index].setAttribute("aria-current", "true");
       current = index;
     };
-    const showCard = (index: number) => {
+    const showCard = (index: number, instant = motion.matches) => {
       const card = cards[Math.max(0, Math.min(index, cards.length - 1))];
       if (card)
         shop.scrollTo({
-          left: center(card),
-          behavior: motion.matches ? "instant" : "smooth",
+          left: snapPosition(card),
+          behavior: instant ? "instant" : "smooth",
         });
     };
     cards.forEach((card, index) =>
@@ -136,6 +142,7 @@ export function mountLandingMotion() {
       options,
     );
     window.addEventListener("resize", updateFeaturedCard, options);
+    if (shop.scrollLeft === 0) showCard(current, true);
     updateFeaturedCard();
     document
       .querySelectorAll<HTMLButtonElement>("[data-shop-step]")
