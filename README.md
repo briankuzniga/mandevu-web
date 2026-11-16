@@ -1,6 +1,6 @@
 # Mandevu Beauty Shop
 
-This project follows Uzo's TanStack Start, React, TypeScript, Vite and Tailwind setup. The home route is in `src/routes/index.tsx`. Page sections are in `src/routes/-sections/`, site styles are in `src/styles.css` and brand files are in `public/assets/`.
+Mandevu landing page uses TanStack Start, React, TypeScript, Vite and Tailwind setup. The home route is in `src/routes/index.tsx`. Page sections are in `src/routes/-sections/`, site styles are in `src/styles.css` and brand files are in `public/assets/`.
 
 - `npm ci` installs the locked dependencies.
 - `npm run dev` opens the development site at http://127.0.0.1:3000.
