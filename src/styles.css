@@ -863,6 +863,108 @@ h2.big {
   color: var(--wine);
   font: 600 1.65rem/1.02 var(--serif);
 }
+.shop-catalog {
+  margin-top: 24px;
+}
+.shop-catalog summary,
+.shop-show-more {
+  width: fit-content;
+  margin-inline: auto;
+  padding: 12px 24px;
+  border: 1px solid var(--wine);
+  border-radius: 999px;
+  background: var(--wine);
+  color: var(--ivory);
+  font: 600 0.875rem/1.5 var(--sans);
+  cursor: pointer;
+}
+.shop-show-more:not([hidden]) {
+  display: block;
+  margin-top: 20px;
+}
+.shop-catalog-filters {
+  display: none;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 24px;
+}
+.js .shop-catalog-filters {
+  display: flex;
+}
+.shop-catalog-filters button {
+  min-height: 44px;
+  padding-inline: 14px;
+  border: 1px solid var(--wine);
+  border-radius: 999px;
+  background: var(--ivory);
+  color: var(--wine);
+  font: 600 0.8125rem/1.2 var(--sans);
+  cursor: pointer;
+}
+.shop-catalog-filters [aria-pressed="true"] {
+  background: var(--wine);
+  color: var(--ivory);
+}
+.shop-catalog summary:focus-visible,
+.shop-show-more:focus-visible,
+.shop-catalog-filters button:focus-visible,
+.shop-catalog-card:focus-visible {
+  outline-color: var(--wine);
+}
+.shop-catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(10px, 2vw, 20px);
+  margin-top: 16px;
+}
+.shop-catalog-card {
+  overflow: hidden;
+  border: 1px solid var(--nude);
+  border-radius: 16px;
+  background: #fffaf7;
+}
+.shop-catalog-card .shop-card-title {
+  font-size: clamp(1.125rem, 2.4vw, 1.65rem);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .shop-catalog[open] .shop-catalog-filters {
+    animation: catalog-reveal 320ms ease-out both;
+  }
+  .shop-catalog[open] .shop-catalog-card:nth-child(-n + 8) {
+    animation: catalog-reveal 420ms cubic-bezier(0.22, 1, 0.36, 1)
+      var(--catalog-delay, 90ms) both;
+  }
+  .shop-catalog[open] .shop-catalog-card:nth-child(n + 5) {
+    --catalog-delay: 160ms;
+  }
+  .shop-catalog[open] .shop-show-more {
+    animation: catalog-reveal 320ms ease-out 200ms both;
+  }
+}
+@keyframes catalog-reveal {
+  from {
+    opacity: 0;
+    translate: 0 10px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+@media (max-width: 700px) {
+  .shop-catalog-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .shop-catalog[open] .shop-catalog-card:nth-child(n + 3) {
+    --catalog-delay: 135ms;
+  }
+  .shop-catalog[open] .shop-catalog-card:nth-child(n + 5) {
+    --catalog-delay: 180ms;
+  }
+  .shop-catalog[open] .shop-catalog-card:nth-child(n + 7) {
+    --catalog-delay: 225ms;
+  }
+}
 @media (prefers-reduced-motion: no-preference) {
   .js .shop-card {
     transition: transform 320ms ease, opacity 320ms ease, box-shadow 320ms ease;

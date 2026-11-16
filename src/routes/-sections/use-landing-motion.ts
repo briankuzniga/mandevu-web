@@ -39,6 +39,57 @@ export function mountLandingMotion() {
   const motion = matchMedia("(prefers-reduced-motion: reduce)");
   const listeners = new AbortController();
   const options = { signal: listeners.signal };
+  const catalog = document.querySelector(".shop-catalog");
+  const showMore = catalog?.querySelector<HTMLButtonElement>(".shop-show-more");
+  if (catalog && showMore) {
+    const cards = [
+      ...catalog.querySelectorAll<HTMLElement>("[data-shop-category]"),
+    ];
+    const filters = [
+      ...catalog.querySelectorAll<HTMLButtonElement>("[data-shop-filter]"),
+    ];
+    const pageSize = 8;
+    let category = "All";
+    let limit = pageSize;
+    const updateCatalog = () => {
+      let matches = 0;
+      for (const card of cards) {
+        const matchesCategory =
+          category === "All" || card.dataset.shopCategory === category;
+        card.hidden = !matchesCategory || ++matches > limit;
+      }
+      showMore.hidden = matches <= limit;
+    };
+    for (const filter of filters) {
+      filter.addEventListener(
+        "click",
+        () => {
+          category = filter.dataset.shopFilter ?? "All";
+          limit = pageSize;
+          for (const option of filters) {
+            option.setAttribute("aria-pressed", String(option === filter));
+          }
+          updateCatalog();
+        },
+        options,
+      );
+    }
+    showMore.addEventListener(
+      "click",
+      () => {
+        const nextCard = cards.find(
+          (card) =>
+            card.hidden &&
+            (category === "All" || card.dataset.shopCategory === category),
+        );
+        limit += pageSize;
+        updateCatalog();
+        nextCard?.focus();
+      },
+      options,
+    );
+    updateCatalog();
+  }
   const shop = document.querySelector<HTMLElement>("#shop-products");
   if (shop) {
     const cards = [...shop.querySelectorAll<HTMLButtonElement>(".shop-card")];
